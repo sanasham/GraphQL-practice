@@ -158,6 +158,7 @@ async function StartServer() {
     id: ID!
     title:String!
     completed:Boolean
+    user:User!
   }
   type User{
     id:ID! 
@@ -166,6 +167,7 @@ async function StartServer() {
     email:String!
     phone:String!
     website:String!
+    
   }
   type Query{
     getTodos:[Todo]
@@ -174,6 +176,26 @@ async function StartServer() {
   }
   `,
     resolvers: {
+      Todo: {
+        user: (todo) => {
+          let result = userData.filter((user) => {
+            if (user.id === parseInt(todo.id)) {
+              return user;
+            }
+          });
+          return result ? result[0] : null;
+        },
+      },
+      // User: {
+      //   todo: (user) => {
+      //     let result = TodoData.filter((todo) => {
+      //       if (todo.id === parseInt(user.id)) {
+      //         return todo;
+      //       }
+      //     });
+      //     return result ? result[0] : null;
+      //   },
+      // },
       Query: {
         getTodos: () => {
           return TodoData;
