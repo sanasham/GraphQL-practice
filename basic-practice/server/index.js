@@ -169,12 +169,26 @@ async function StartServer() {
   }
   type Query{
     getTodos:[Todo]
+    getUsers:[User]
+    getUserById(id:ID!):User
   }
   `,
     resolvers: {
       Query: {
         getTodos: () => {
           return TodoData;
+        },
+        getUsers: () => {
+          return userData;
+        },
+        getUserById: (parent, { id }) => {
+          let result = userData.filter((user) => {
+            if (user.id === parseInt(id)) {
+              return user;
+            }
+          });
+          console.log('result', result);
+          return result ? result[0] : null;
         },
       },
     },
