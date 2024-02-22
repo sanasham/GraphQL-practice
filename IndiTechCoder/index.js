@@ -1,11 +1,12 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-
+import typeDefs from "./schema/schema.js";
+import resolvers from "./resolvers/resolvers.js";
 //server setup
 
 const server = new ApolloServer({
-  //typeDefs   -- defenation of type of data
-  //resolvers
+  typeDefs,
+  resolvers,
 });
 
 const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
